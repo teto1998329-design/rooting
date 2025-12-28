@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دفع رسوم الاشتراك</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #f72585;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4cc9f0;
+            --gray-color: #6c757d;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+
+        .subtitle {
+            color: var(--gray-color);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .plans-section, .payment-section {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .plans-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .plan-card {
+            flex: 1;
+            min-width: 250px;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .plan-card.popular {
+            border-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .plan-period {
+            font-size: 1rem;
+            color: var(--gray-color);
+            font-weight: normal;
+        }
+
+        .plan-features {
+            list-style-type: none;
+            margin-bottom: 25px;
+        }
+
+        .plan-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .plan-features li i {
+            color: var(--success-color);
+            margin-left: 10px;
+        }
+
+        .select-plan-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .select-plan-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .payment-form {
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .card-icons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            color: var(--gray-color);
+        }
+
+        .card-details {
+            display: flex;
+            gap: 15px;
+        }
+
+        .card-details .form-group {
+            flex: 1;
+        }
+
+        .payment-btn {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .payment-btn:hover {
+            background-color: #e11570;
+        }
+
+        .confirmation-section {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            color: var(--success-color);
+            margin-bottom: 20px;
+        }
+
+        .back-to-plans {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .back-to-plans:hover {
+            background-color: var(--secondary-color);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: var(--gray-color);
+        }
+
+        .secure-payment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .plan-card.popular {
+                transform: none;
+            }
+            
+            .card-details {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-crown"></i>
+            </div>
+            <h1>دفع رسوم الاشتراك</h1>
+            <p class="subtitle">اختر الخطة المناسبة لك وقم بالدفع بكل أمان وسهولة. جميع خططنا تشمل دعم فني على مدار الساعة.</p>
+        </header>
+
+        <main class="main-content">
+            <section class="plans-section">
+                <h2 class="section-title">خطط الاشتراك المتاحة</h2>
+                <div class="plans-container">
+                    <!-- الخطة الأساسية -->
+                    <div class="plan-card">
+                        <div class="plan-name">الخطة الأساسية</div>
+                        <div class="plan-price">50<span class="plan-period">/شهرياً</span></div>
+                        <ul class="plan-features">
+                            <li><i class="fas fa-check"></i> وصول كامل للمحتوى الأساسي</li>
+                            <li><i class="fas fa-check"></i> دعم فني عبر البريد الإلكتروني</li>
+                            <li><i class="fas fa-check"></i> تحديثات شهرية</li>
+                            <li><i class="fas fa-check"></i> 5GB مساحة تخزين</li>
+                            <li><i class="fas fa-times" style="color: #ccc;"></i> وصول مسبق للمميزات الجديدة</li>
+                        </ul>
+                        <button class="select-plan-btn" data-plan="basic">اختيار الخطة</button>
+                    </div>
+
+                    <!-- الخطة المتقدمة -->
+                    <div class="plan-card popular">
+                        <div class="popular-badge">الأكثر شيوعاً</div>
+                        <div class="plan-name">الخطة المتقدمة</div>
+                        <div class="plan-price">90<span class="plan-period">/شهرياً</span></div>
+                        <ul class="plan-features">
+                            <li><i class="fas fa-check"></i> كل مميزات الخطة الأساسية</li>
+                            <li><i class="fas fa-check"></i> دعم فني عبر الهاتف</li>
+                            <li><i class="fas fa-check"></i> تحديثات أسبوعية</li>
+                            <li><i class="fas fa-check"></i> 20GB مساحة تخزين</li>
+                            <li><i class="fas fa-check"></i> وصول مسبق للمميزات الجديدة</li>
+                        </ul>
+                        <button class="select-plan-btn" data-plan="pro">اختيار الخطة</button>
+                    </div>
+
+                    <!-- الخطة الاحترافية -->
+                    <div class="plan-card">
+                        <div class="plan-name">الخطة الاحترافية</div>
+                        <div class="plan-price">150<span class="plan-period">/شهرياً</span></div>
+                        <ul class="plan-features">
+                            <li><i class="fas fa-check"></i> كل مميزات الخطة المتقدمة</li>
+                            <li><i class="fas fa-check"></i> دعم فني مخصص 24/7</li>
+                            <li><i class="fas fa-check"></i> تحديثات يومية</li>
+                            <li><i class="fas fa-check"></i> مساحة تخزين غير محدودة</li>
+                            <li><i class="fas fa-check"></i> تدريب مخصص لفريقك</li>
+                        </ul>
+                        <button class="select-plan-btn" data-plan="premium">اختيار الخطة</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="payment-section">
+                <h2 class="section-title">معلومات الدفع</h2>
+                <div class="selected-plan-info">
+                    <p>يرجى اختيار خطة من الخطط أعلاه للمتابعة إلى الدفع.</p>
+                </div>
+                
+                <form class="payment-form" id="paymentForm">
+                    <div class="form-group">
+                        <label for="name">الاسم الكامل</label>
+                        <input type="text" id="name" class="form-control" placeholder="أدخل اسمك الكامل" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">البريد الإلكتروني</label>
+                        <input type="email" id="email" class="form-control" placeholder="أدخل بريدك الإلكتروني" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>تفاصيل بطاقة الدفع</label>
+                        <div class="card-icons">
+                            <i class="fab fa-cc-visa card-icon" style="color: #1a1f71;"></i>
+                            <i class="fab fa-cc-mastercard card-icon" style="color: #eb001b;"></i>
+                            <i class="fab fa-cc-amex card-icon" style="color: #2e77bc;"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cardNumber">رقم البطاقة</label>
+                        <input type="text" id="cardNumber" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                    </div>
+                    
+                    <div class="card-details">
+                        <div class="form-group">
+                            <label for="expiryDate">تاريخ الانتهاء</label>
+                            <input type="text" id="expiryDate" class="form-control" placeholder="MM/YY" maxlength="5" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cvv">رمز الحماية (CVV)</label>
+                            <input type="text" id="cvv" class="form-control" placeholder="123" maxlength="3" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="payment-btn" id="submitPayment">
+                        <i class="fas fa-lock"></i> دفع الآن
+                    </button>
+                </form>
+                
+                <div class="confirmation-section" id="confirmationSection">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2>تم الدفع بنجاح!</h2>
+                    <p>شكراً لك على اشتراكك. تم تفعيل خطتك بنجاح وسيتم إرسال تفاصيل الاشتراك إلى بريدك الإلكتروني.</p>
+                    <p id="confirmationDetails"></p>
+                    <a href="#" class="back-to-plans" id="backToPlans">العودة إلى الخطط</a>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>جميع المعاملات مؤمنة ومشفرة. نحن لا نخزن معلومات بطاقتك الائتمانية.</p>
+            <div class="secure-payment">
+                <i class="fas fa-shield-alt" style="color: var(--success-color);"></i>
+                <span>دفع آمن ومشفر</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // تحديد العناصر الرئيسية
+        const planButtons = document.querySelectorAll('.select-plan-btn');
+        const paymentForm = document.querySelector('.payment-form');
+        const selectedPlanInfo = document.querySelector('.selected-plan-info');
+        const paymentSectionTitle = document.querySelector('.payment-section .section-title');
+        const confirmationSection = document.getElementById('confirmationSection');
+        const confirmationDetails = document.getElementById('confirmationDetails');
+        const backToPlansBtn = document.getElementById('backToPlans');
+        
+        // معلومات الخطط
+        const plans = {
+            basic: {
+                name: "الخطة الأساسية",
+                price: "50",
+                period: "شهرياً"
+            },
+            pro: {
+                name: "الخطة المتقدمة",
+                price: "90",
+                period: "شهرياً"
+            },
+            premium: {
+                name: "الخطة الاحترافية",
+                price: "150",
+                period: "شهرياً"
+            }
+        };
+        
+        // متغير لتخزين الخطة المحددة حالياً
+        let selectedPlan = null;
+        
+        // معالجة اختيار الخطة
+        planButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const planType = this.getAttribute('data-plan');
+                selectedPlan = plans[planType];
+                
+                // تحديث واجهة معلومات الخطة المحددة
+                selectedPlanInfo.innerHTML = `
+                    <div style="background-color: #e8f4ff; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 10px;">${selectedPlan.name}</h3>
+                        <p style="font-size: 1.2rem;"><strong>السعر:</strong> ${selectedPlan.price} ريال ${selectedPlan.period}</p>
+                        <p style="color: var(--gray-color);">تم تحديد هذه الخطة. يرجى إكمال معلومات الدفع أدناه.</p>
+                    </div>
+                `;
+                
+                // إظهار نموذج الدفع
+                paymentForm.style.display = 'block';
+                paymentSectionTitle.textContent = 'إكمال الدفع للاشتراك';
+                
+                // التمرير إلى قسم الدفع
+                paymentForm.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        
+        // معالجة إدخال رقم البطاقة
+        document.getElementById('cardNumber').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            let formattedValue = value.replace(/(\d{4})/g, '$1 ').trim();
+            e.target.value = formattedValue;
+        });
+        
+        // معالجة إدخال تاريخ الانتهاء
+        document.getElementById('expiryDate').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+        });
+        
+        // معالجة إرسال نموذج الدفع
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // التحقق من صحة البيانات
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const cardNumber = document.getElementById('cardNumber').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            const cvv = document.getElementById('cvv').value;
+            
+            if (!selectedPlan) {
+                alert('يرجى اختيار خطة أولاً');
+                return;
+            }
+            
+            if (!name || !email || !cardNumber || !expiryDate || !cvv) {
+                alert('يرجى ملء جميع الحقول المطلوبة');
+                return;
+            }
+            
+            if (cardNumber.replace(/\s/g, '').length < 16) {
+                alert('يرجى إدخال رقم بطاقة صحيح');
+                return;
+            }
+            
+            if (cvv.length < 3) {
+                alert('يرجى إدخال رمز الحماية الصحيح');
+                return;
+            }
+            
+            // محاكاة عملية الدفع
+            const submitBtn = document.getElementById('submitPayment');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري معالجة الدفع...';
+            submitBtn.disabled = true;
+            
+            // محاكاة تأخير الشبكة
+            setTimeout(() => {
+                // إخفاء نموذج الدفع وإظهار تأكيد الدفع
+                paymentForm.style.display = 'none';
+                selectedPlanInfo.style.display = 'none';
+                confirmationSection.style.display = 'block';
+                
+                // عرض تفاصيل الاشتراك
+                confirmationDetails.innerHTML = `
+                    <p><strong>الخطة:</strong> ${selectedPlan.name}</p>
+                    <p><strong>المبلغ:</strong> ${selectedPlan.price} ريال ${selectedPlan.period}</p>
+                    <p><strong>اسم المشترك:</strong> ${name}</p>
+                    <p><strong>البريد الإلكتروني:</strong> ${email}</p>
+                `;
+                
+                // التمرير إلى قسم التأكيد
+                confirmationSection.scrollIntoView({ behavior: 'smooth' });
+                
+                // إعادة تعيين الزر
+                submitBtn.innerHTML = '<i class="fas fa-lock"></i> دفع الآن';
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+        
+        // معالجة العودة إلى الخطط
+        backToPlansBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // إعادة تعيين النموذج
+            document.getElementById('paymentForm').reset();
+            paymentForm.style.display = 'none';
+            confirmationSection.style.display = 'none';
+            selectedPlanInfo.style.display = 'block';
+            selectedPlanInfo.innerHTML = '<p>يرجى اختيار خطة من الخطط أعلاه للمتابعة إلى الدفع.</p>';
+            paymentSectionTitle.textContent = 'معلومات الدفع';
+            
+            // التمرير إلى الأعلى
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // إعادة تعيين الخطة المحددة
+            selectedPlan = null;
+        });
+    </script>
+</body>
+</html>
